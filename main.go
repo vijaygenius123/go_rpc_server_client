@@ -2,6 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+	"net/rpc"
+	"net/http"
+
 )
 
 
@@ -9,15 +14,17 @@ type Item struct {
 	title string
 	body string
 }
+type API int
 
 var database []Item
 
-func AddItem(item Item) Item{
+func (a *API) AddItem(item Item,reply *Item) error {
 	database = append(database, item)
-	return item
+	*reply = item
+	return nil
 }
 
-func GetItemByTitle(title string)Item {
+func (a *API) GetItemByTitle(title string, reply *Item) error {
 	var getItem Item
 
 	for _, val := range database {
@@ -27,22 +34,25 @@ func GetItemByTitle(title string)Item {
 		}
 	}
 
-	return getItem
+	*reply = getItem
+	return nil
 }
 
-func EditItem(title string, edited Item)Item {
+func (a *API) EditItem(edited Item, reply *Item) error {
 	var editedItem Item
 
 	for idx, val := range database {
-		if val.title == title{
+		if val.title == edited.title{
 			database[idx] = edited
 			editedItem = edited
 		}
 	}
-	return editedItem
+
+	*reply = editedItem
+	return nil
 }
 
-func DeleteItem(item Item) Item{
+func (a *API) DeleteItem(item Item, reply *Item) error {
 
 	var deleted Item
 
@@ -53,8 +63,8 @@ func DeleteItem(item Item) Item{
 			break
 		}
 	}
-	
-	return deleted
+	*reply = deleted
+	return nil
 }
 
 
@@ -62,6 +72,29 @@ func main(){
 
 	fmt.Println("Hello")
 
+	var api = new(API)
+
+	err := rpc.Register(api)
+
+	if err != nil {
+		log.Fatal("Error registering API",err)
+	}
+
+	rpc.HandleHTTP()
+
+	listener, err := net.Listen("tcp",":4040")
+
+	if err != nil {
+		log.Fatal("Listener Error",err)
+	}
+	log.Printf("Serving RPC On Port %d",4040)
+
+	err = http.Serve(listener,nil)
+	if err != nil {
+		log.Fatal("Server Error",err)
+	}
+
+	/*
 	fmt.Println("Initial Database State", database)
 	a := Item{"first","This Is The First Item"}
 	b := Item{"second","This Is The Second Item"}
@@ -72,7 +105,7 @@ func main(){
 	AddItem(b)
 	AddItem(c)
 	AddItem(d)
-	
+
 	fmt.Println("Database State After Adding Items", database)
 
 	e := GetItemByTitle("second")
@@ -84,5 +117,5 @@ func main(){
 	fmt.Println("Database Before Deleting Item", database)
 	DeleteItem(d)
 	fmt.Println("Database After Deleting Item", database)
-
+*/
 }
