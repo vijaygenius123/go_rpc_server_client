@@ -30,4 +30,16 @@ func GetItemByTitle(title string)Item {
 	return getItem
 }
 
+func EditItem(title string, edited Item)Item {
+	var editedItem Item
+
+	for idx, val := range database {
+		if val.title == title{
+			database[idx] = edited
+			editedItem = edited
+		}
+	}
+	return editedItem
+}
+
 ```
