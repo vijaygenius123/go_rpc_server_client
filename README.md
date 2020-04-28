@@ -42,4 +42,19 @@ func EditItem(title string, edited Item)Item {
 	return editedItem
 }
 
+
+func DeleteItem(item Item) Item{
+
+	var deleted Item
+
+	for idx, val := range database {
+		if val.title == item.title && val.body == item.body {
+			database = append(database[:idx], database[idx+1:]...)
+			deleted = item
+			break
+		}
+	}
+	
+	return deleted
+}
 ```
