@@ -17,6 +17,19 @@ func AddItem(item Item) Item{
 	return item
 }
 
+func GetItemByTitle(title string)Item {
+	var getItem Item
+
+	for _, val := range database {
+		if val.title == title{
+			 getItem = val
+		}
+	}
+
+	return getItem
+}
+
+
 func main(){
 
 	fmt.Println("Hello")
@@ -32,4 +45,9 @@ func main(){
 
 	fmt.Println("Database State After Adding Items", database)
 
+	d := GetItemByTitle("second")
+
+	fmt.Println("Get Item : ", d)
+
+	
 }

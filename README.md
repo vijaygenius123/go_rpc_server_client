@@ -18,4 +18,16 @@ func AddItem(item Item) Item{
     return item
 }
 
+func GetItemByTitle(title string)Item {
+	var getItem Item
+
+	for _, val := range database {
+		if val.title == title{
+			 getItem = val
+		}
+	}
+
+	return getItem
+}
+
 ```
