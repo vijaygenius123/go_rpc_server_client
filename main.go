@@ -18,6 +18,13 @@ type API int
 
 var database []Item
 
+
+func (a *API) GetDB(title string,reply *[]Item) error {
+	
+	*reply = database
+	return nil
+}
+
 func (a *API) AddItem(item Item,reply *Item) error {
 	database = append(database, item)
 	*reply = item
