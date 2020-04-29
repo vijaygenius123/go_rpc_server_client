@@ -15,6 +15,7 @@ func main() {
 
 	var reply Item
 	var database []Item
+	var final_database []Item
 	fmt.Println("Client")
 	
 
@@ -26,15 +27,30 @@ func main() {
 
 	a := Item{"first","This Is The First Item"}
 	b := Item{"second","This Is The Second Item"}
+	c := Item{"third","This Is The Fourth Item"}
+	d := Item{"fourth","This Is The Fourth Item"}
 
 	client.Call("API.AddItem",a,&reply)
-	fmt.Println(reply)
 	client.Call("API.AddItem",b,&reply)
+	client.Call("API.AddItem",c,&reply)
+	client.Call("API.AddItem",d,&reply)
 
+	fmt.Println("Initial DB State")
 	client.Call("API.GetDB","GetDB",&database)
 	fmt.Println(database)
 
-	c := Item{}
-	client.Call("API.GetItemByTitle","first",&c)
-	fmt.Println(c)
+	fmt.Println("Get Item By Title first")
+	e := Item{}
+	client.Call("API.GetItemByTitle","first",&e)
+	fmt.Println(e)
+
+	fmt.Println("Edit Item 3")
+	f := Item{"third","This Is The Third Item"}
+	client.Call("API.EditItem",Item{"third","This Is The Third Item"},&f)
+	fmt.Println(f)
+
+	fmt.Println("Final DB State")
+	client.Call("API.GetDB","GetDB",&final_database)
+	fmt.Println(final_database)
+
 }
