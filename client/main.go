@@ -49,6 +49,10 @@ func main() {
 	client.Call("API.EditItem",Item{"third","This Is The Third Item"},&f)
 	fmt.Println(f)
 
+	fmt.Println("Delete Item 4")
+	client.Call("API.DeleteItem",d,&f)
+	fmt.Println(f)
+
 	fmt.Println("Final DB State")
 	client.Call("API.GetDB","GetDB",&final_database)
 	fmt.Println(final_database)
