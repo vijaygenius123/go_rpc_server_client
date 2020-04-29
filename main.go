@@ -11,8 +11,8 @@ import (
 
 
 type Item struct {
-	title string
-	body string
+	Title string
+	Body string
 }
 type API int
 
@@ -28,7 +28,7 @@ func (a *API) GetItemByTitle(title string, reply *Item) error {
 	var getItem Item
 
 	for _, val := range database {
-		if val.title == title{
+		if val.Title == title{
 			 getItem = val
 			 break
 		}
@@ -42,7 +42,7 @@ func (a *API) EditItem(edited Item, reply *Item) error {
 	var editedItem Item
 
 	for idx, val := range database {
-		if val.title == edited.title{
+		if val.Title == edited.Title{
 			database[idx] = edited
 			editedItem = edited
 		}
@@ -57,7 +57,7 @@ func (a *API) DeleteItem(item Item, reply *Item) error {
 	var deleted Item
 
 	for idx, val := range database {
-		if val.title == item.title && val.body == item.body {
+		if val.Title == item.Title && val.Body == item.Body {
 			database = append(database[:idx], database[idx+1:]...)
 			deleted = item
 			break
