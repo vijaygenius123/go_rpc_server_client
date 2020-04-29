@@ -33,4 +33,8 @@ func main() {
 
 	client.Call("API.GetDB","GetDB",&database)
 	fmt.Println(database)
+
+	c := Item{}
+	client.Call("API.GetItemByTitle","first",&c)
+	fmt.Println(c)
 }
